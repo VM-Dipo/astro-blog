@@ -28,3 +28,7 @@ content:
       - { name: layout, type: string, hidden: true, default: "../layouts/AboutLayout.astro" }
       - { name: title, label: Title, type: string }
       - { name: body, label: Body, type: rich-text, options: { input: public/assets, output: /assets } }
+  - name: divisions
+    label: Divisions
+    type: collection
+    path: src/content/divisions
