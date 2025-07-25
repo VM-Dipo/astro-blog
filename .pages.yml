@@ -62,7 +62,7 @@ content:
     type: collection
     label: Authors
     fields: # Add the fields section for authors
-      - name: name # Assuming 'name' is the field you use for the author's display name
+      - name:  slug
         label: Author Name
         type: string
         required: true
