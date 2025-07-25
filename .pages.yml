@@ -44,7 +44,7 @@ content:
       - name: author
         label: Author
         type: reference
-        required: true
+        required: false
         options:
           collection: authors
           value: slug
