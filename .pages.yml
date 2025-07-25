@@ -24,7 +24,7 @@ content:
 
     path: content/posts
 
-    filename: "{year}-{month}-{day}-{slug}"
+    filename: "{year}-{month}-{day}-{slug}.md"
 
     view:
 
