@@ -61,4 +61,19 @@ content:
     path: src/content/authors
     type: collection
     label: Authors
+    fields: # Add the fields section for authors
+      - name: name # Assuming 'name' is the field you use for the author's display name
+        label: Author Name
+        type: string
+        required: true
+      - name: email # You might want to add other author-related fields here
+        label: Email
+        type: string
+      - name: slug # THIS IS THE CRUCIAL ADDITION
+        label: Slug
+        type: string
+        required: true
+        pattern:
+          regex: '^[a-z0-9-]+$'
+          message: 'Slug must contain only lowercase letters, numbers, and hyphens'
     
