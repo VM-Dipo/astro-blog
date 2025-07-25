@@ -77,14 +77,7 @@ content:
         pattern:
           regex: '^[a-z0-9-]+$'
           message: 'Slug must contain only lowercase letters, numbers, and hyphens'
- 
-      - name: email
-        label: Email Address
-        type: string
-        required: true
-        pattern:
-          regex: '^[^\s@]+@[^\s@]+\.[^\s@]+$'
-          message: 'Please enter a valid email address'
+
  
       - name: avatar
         label: Profile Photo
