@@ -1,34 +1,249 @@
-media:
-  input: public
-  output: /
-content:
+Posts collection
   - name: posts
-    label: Posts
+    label: Blog Posts
     type: collection
-    path: src/content/blog
+    path: content/posts
+    filename: "{year}-{month}-{day}-{slug}"
     view:
-      fields: [ title, draft, date ]
+      fields: [title, date, author, published]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
     fields:
-      - { name: author, label: Author, type: string }
-      - { name: pubDatetime, label: Date, type: date }
-      - { name: modDatetime, label: Date, type: date }
-      - { name: title, label: Title, type: string, required: true }
-      - { name: ogImage, label: Title, type: string }
-      - { name: slug, label: Slug, type: string }
-      - { name: featured, label: Featured, type: boolean }
-      - { name: draft, label: Draft, type: boolean }
-      - { name: tags, label: Tags, type: string, list: true }
-      - { name: description, label: Description, type: string }
-      - { name: body, label: Body, type: rich-text }
-  - name: about
-    label: About page
-    type: file
-    path: src/pages/about.md
-    fields:
-      - { name: layout, type: string, hidden: true, default: "../layouts/AboutLayout.astro" }
-      - { name: title, label: Title, type: string }
-      - { name: body, label: Body, type: rich-text, options: { input: public/assets, output: /assets } }
-  - name: divisions
-    label: Divisions
+      - name: title
+        label: Title
+        type: string
+        required: true
+ 
+      - name: slug
+        label: URL Slug
+        type: string
+        required: true
+        pattern:
+          regex: '^[a-z0-9-]+$'
+          message: 'Slug must contain only lowercase letters, numbers, and hyphens'
+ 
+      - name: date
+        label: Publish Date
+        type: date
+        required: true
+        default: "now"
+ 
+      - name: author
+        label: Author
+        type: reference
+        required: true
+        options:
+          collection: authors
+          value: slug
+          display: name
+          search: [name, email]
+ 
+      - name: excerpt
+        label: Excerpt
+        type: text
+        description: A brief summary of the post
+ 
+      - name: featured_image
+        label: Featured Image
+        type: image
+ 
+      - name: tags
+        label: Tags
+        type: string
+        list: true
+ 
+      - name: category
+        label: Category
+        type: select
+        required: true
+        options:
+          options:
+            - label: Technology
+              value: tech
+            - label: Lifestyle
+              value: lifestyle
+            - label: Business
+              value: business
+            - label: Travel
+              value: travel
+            - label: Food
+              value: food
+ 
+      - name: published
+        label: Published
+        type: boolean
+        default: false
+ 
+      - name: featured
+        label: Featured Post
+        type: boolean
+        default: false
+        description: Display this post prominently on the homepage
+ 
+      - name: body
+        label: Content
+        type: rich-text
+        required: true
+ 
+  # Authors collection
+  - name: authors
+    label: Authors
     type: collection
-    path: src/content/divisions
+    path: content/authors
+    filename: "{slug}"
+    view:
+      fields: [name, email, active]
+      primary: name
+      sort: [name]
+      default:
+        sort: name
+        order: asc
+    fields:
+      - name: name
+        label: Full Name
+        type: string
+        required: true
+ 
+      - name: slug
+        label: URL Slug
+        type: string
+        required: true
+        pattern:
+          regex: '^[a-z0-9-]+$'
+          message: 'Slug must contain only lowercase letters, numbers, and hyphens'
+ 
+      - name: email
+        label: Email Address
+        type: string
+        required: true
+        pattern:
+          regex: '^[^\s@]+@[^\s@]+\.[^\s@]+$'
+          message: 'Please enter a valid email address'
+ 
+      - name: avatar
+        label: Profile Photo
+        type: image
+ 
+      - name: bio
+        label: Biography
+        type: rich-text
+        description: A brief description about the author
+ 
+      - name: title
+        label: Job Title
+        type: string
+ 
+      - name: location
+        label: Location
+        type: string
+ 
+      - name: website
+        label: Personal Website
+        type: string
+        pattern:
+          regex: '^https?://.+'
+          message: 'Please enter a valid URL starting with http:// or https://'
+ 
+      - name: social_links
+        label: Social Media Links
+        type: object
+        fields:
+          - name: twitter
+            label: Twitter
+            type: string
+ 
+          - name: linkedin
+            label: LinkedIn
+            type: string
+ 
+          - name: github
+            label: GitHub
+            type: string
+ 
+          - name: instagram
+            label: Instagram
+            type: string
+ 
+      - name: posts
+        label: Posts by this Author
+        type: reference
+        list: true
+        description: This will show all posts assigned to this author
+        options:
+          collection: posts
+          value: slug
+          display: title
+          search: [title]
+          filter:
+            field: author
+            value: "{{slug}}"
+ 
+      - name: active
+        label: Active Author
+        type: boolean
+        default: true
+        description: Inactive authors won't appear in author listings
+ 
+      - name: featured_author
+        label: Featured Author
+        type: boolean
+        default: false
+        description: Display this author prominently on the team page
+ 
+# Reusable components
+components:
+  social_link:
+    label: Social Media Link
+    type: object
+    fields:
+      - name: platform
+        label: Platform
+        type: select
+        required: true
+        options:
+          options:
+            - label: Twitter
+              value: twitter
+            - label: LinkedIn
+              value: linkedin
+            - label: GitHub
+              value: github
+            - label: Instagram
+              value: instagram
+            - label: Facebook
+              value: facebook
+ 
+      - name: url
+        label: URL
+        type: string
+        required: true
+        pattern:
+          regex: '^https?://.+'
+          message: 'Please enter a valid URL'
+ 
+  contact_info:
+    label: Contact Information
+    type: object
+    fields:
+      - name: email
+        label: Email
+        type: string
+        component: email
+ 
+      - name: phone
+        label: Phone Number
+        type: string
+ 
+      - name: address
+        label: Address
+        type: text
+ 
+  email:
+    label: Email Address
+    type: string
+    pattern:
+      regex: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+      message: 'This must be a valid email address (e.g. hello@example.com)'
