@@ -1,93 +1,24 @@
-# Pages CMS Configuration (.pages.yml)
-# This configuration defines posts and authors with proper relational references
- 
-# Media configuration
-media:
-  input: static/media
-  output: /media
- 
-# Content collections
-content:
-  # Posts collection
-  - name: posts
-    label: Blog Posts
-    type: collection
-    path: content/posts
+ type: collection
+    path: src/content/blog
     view:
-      fields: [title, date, author, published]
-      primary: title
-      sort: [date, title]
-      default:
-        sort: date
-        order: desc
+      fields: [ title, draft, date ]
     fields:
-      - name: title
-        label: Title
-        type: string
-        required: true
- 
-      - name: slug
-        label: URL Slug
-        type: string
-        required: true
-        pattern:
-          regex: '^[a-z0-9-]+$'
-          message: 'Slug must contain only lowercase letters, numbers, and hyphens'
- 
-      - name: date
-        label: Publish Date
-        type: date
-        required: true
-        default: "now"
- 
-      - name: author
-        label: Author
-        type: reference
-        required: false
-        options:
-          collection: authors
-          value: slug
-          display: name
-          search: [name, email]
- 
-  # Authors collection
-  - name: authors
-    label: Authors
-    type: collection
-    path: content/authors
-    filename: '{fields.name}'
-    view:
-      fields: [name, email, active]
-      primary: name
-      sort: [name]
-      default:
-        sort: name
-        order: asc
+      - { name: author, label: Author, type: string }
+      - { name: pubDatetime, label: Date, type: date }
+      - { name: modDatetime, label: Date, type: date }
+      - { name: title, label: Title, type: string, required: true }
+      - { name: ogImage, label: Title, type: string }
+      - { name: slug, label: Slug, type: string }
+      - { name: featured, label: Featured, type: boolean }
+      - { name: draft, label: Draft, type: boolean }
+      - { name: tags, label: Tags, type: string, list: true }
+      - { name: description, label: Description, type: string }
+      - { name: body, label: Body, type: rich-text }
+  - name: about
+    label: About page
+    type: file
+    path: src/pages/about.md
     fields:
-      - name: name
-        label: Full Name
-        type: string
-        required: true
- 
-      - name: slug
-        label: URL Slug
-        type: string
-        required: true
-        pattern:
-          regex: '^[a-z0-9-]+$'
-          message: 'Slug must contain only lowercase letters, numbers, and hyphens'
-
- 
-      - name: avatar
-        label: Profile Photo
-        type: image
- 
-      - name: bio
-        label: Biography
-        type: rich-text
-        description: A brief description about the author
- 
-# Global settings
-settings:
-  content:
-    merge: false
+      - { name: layout, type: string, hidden: true, default: "../layouts/AboutLayout.astro" }
+      - { name: title, label: Title, type: string }
+      - { name: body, label: Body, type: rich-text, options: { input: public/assets, output: /assets } 
