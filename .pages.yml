@@ -24,7 +24,7 @@ content:
     label: Authors
     type: collection
     path: src/content/authors
-        fields:
+    fields: 
       - name: name
         label: Full Name
         type: string
