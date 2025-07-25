@@ -13,7 +13,7 @@ content:
     label: Blog Posts
     type: collection
     path: content/posts
-    filename: "{year}-{month}-{day}-{slug}"
+    filename: "{year}-{month}-{day}-{slug}.md"
     view:
       fields: [title, date, author, published]
       primary: title
