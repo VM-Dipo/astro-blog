@@ -13,12 +13,12 @@ content:
       - name: author
         label: Author
         type: reference
-        required: true
+        required: false
         options:
           collection: authors
           value: slug
           display: name
-          search: [name]
+          search: [name, email]
       - name: pubDatetime
         label: Publish Date
         type: date
