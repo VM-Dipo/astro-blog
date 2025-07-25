@@ -56,7 +56,7 @@ content:
     label: Authors
     type: collection
     path: content/authors
-    filename: "{slug}.md"
+    filename: "brad-coulson.md"
     view:
       fields: [name, email, active]
       primary: name
