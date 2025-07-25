@@ -55,6 +55,7 @@ content:
     label: Authors
     type: collection
     path: content/authors
+    filename: '{fields.name}'
     view:
       fields: [name, email, active]
       primary: name
