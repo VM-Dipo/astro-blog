@@ -58,6 +58,31 @@ content:
         label: Body
         type: rich-text
 
-  - name: authors
+ - name: authors
     label: Authors
-    type:
+    type: collection
+    path: src/content/authors
+    view:
+      fields: [name, slug, posts]
+    fields:
+      - name: name
+        …
+      - name: slug
+        …
+      - name: avatar
+        …
+      - name: bio
+        …
+      # ← ADD THIS BLOCK ↓
+      - name: posts
+        label: Posts by Author
+        type: reference
+        list: true
+        options:
+          collection: posts
+          value: slug
+          display: title
+          search: [title]
+          filter:
+            field: author
+            value: "{{slug}}"
